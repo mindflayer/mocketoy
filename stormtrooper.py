@@ -17,9 +17,13 @@ class StormTrooperClient(asyncore.dispatcher):
 
     def handle_read(self):
         data = self.recv(8192).strip()
+        if not data:
+            return
         print data
         if data == 'You don\'t need to see his identification.':
             print 'Move along... move along.'
+        else:
+            print 'These are the droids we\'re looking for.'
 
     def writable(self):
         return len(self.buffer) > 0

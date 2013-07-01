@@ -9,7 +9,7 @@ class JedyHandler(asyncore.dispatcher_with_send):
         if data == 'Let me see your identification.':
             reply = 'You don\'t need to see his identification.'
         else:
-            reply = 'W0T???'
+            reply = 'Do. Or do not. There is no try.'
         print 'Obi-Wan: {0!r}'.format(reply)
         self.send(reply + '\r\n')
         self.close()
