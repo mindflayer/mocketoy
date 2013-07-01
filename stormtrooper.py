@@ -1,42 +1,17 @@
-import asyncore
 import socket
 
 
-class StormTrooperClient(asyncore.dispatcher):
+class Stormtrooper(object):
     def __init__(self, addr=None):
-        asyncore.dispatcher.__init__(self)
-        self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.connect(addr or ('localhost', 8080))
-        self.buffer = 'Let me see your identification.\r\n'
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock.connect(addr or ('localhost', 8080))
 
-    def handle_connect(self):
-        pass
-
-    def handle_close(self):
-        self.close()
-
-    def handle_read(self):
-        data = self.recv(8192).strip()
-        if not data:
-            return
-        print data
-        if data == 'You don\'t need to see his identification.':
-            print 'Move along... move along.'
-        else:
-            print 'These are the droids we\'re looking for.'
-
-    def writable(self):
-        return len(self.buffer) > 0
-
-    def handle_write(self):
-        print self.buffer.strip()
-        sent = self.send(self.buffer)
-        self.buffer = self.buffer[sent:]
-
-    def handle_error(self):
-        pass
+    def identify(self):
+        self._fp = self.sock.makefile('rb')
+        self.sock.sendall('Let me see your identification.\r\n')
+        return self._fp.read().strip() == 'You don\'t need to see his identification.'
 
 
 if __name__ == '__main__':
-    client = StormTrooperClient()
-    asyncore.loop()
+    st = Stormtrooper()
+    print st.identify()
