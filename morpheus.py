@@ -2,7 +2,7 @@ import asyncore
 import socket
 
 
-class MorpheusHandler(asyncore.dispatcher_with_send):
+class Morpheus(asyncore.dispatcher_with_send):
     def handle_read(self):
         data = self.recv(8192).strip()
         if data == 'I know kung fu.':
@@ -13,7 +13,7 @@ class MorpheusHandler(asyncore.dispatcher_with_send):
         self.close()
 
 
-class Morpheus(asyncore.dispatcher):
+class MorpheusServer(asyncore.dispatcher):
     def __init__(self, host, port):
         asyncore.dispatcher.__init__(self)
         self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -25,11 +25,11 @@ class Morpheus(asyncore.dispatcher):
         pair = self.accept()
         if pair is not None:
             sock, addr = pair
-            MorpheusHandler(sock)
+            Morpheus(sock)
 
     def handle_error(self):
         pass
 
 if __name__ == '__main__':
-    server = Morpheus('localhost', 8080)
+    server = MorpheusServer('localhost', 8080)
     asyncore.loop()
