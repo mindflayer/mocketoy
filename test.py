@@ -10,7 +10,7 @@ class RealTestCase(TestCase):
         self.assertEqual(len(Mocket._requests), 0)
 
 
-class DroidTestCase(TestCase):
+class MockTestCase(TestCase):
     @Mocketizer.wrap
     def test_ok(self):
         Mocket.register(MocketEntry(('localhost', 8080), ['Show me.\r\n']))
