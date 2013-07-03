@@ -2,20 +2,18 @@ import asyncore
 import socket
 
 
-class JedyHandler(asyncore.dispatcher_with_send):
+class MorpheusHandler(asyncore.dispatcher_with_send):
     def handle_read(self):
         data = self.recv(8192).strip()
-        print 'Stormtrooper: {0!r}'.format(data)
-        if data == 'Let me see your identification.':
-            reply = 'You don\'t need to see his identification.'
+        if data == 'I know kung fu.':
+            reply = 'Show me.'
         else:
-            reply = 'Do. Or do not. There is no try.'
-        print 'Obi-Wan: {0!r}'.format(reply)
+            reply = 'Blue Pill.'
         self.send(reply + '\r\n')
         self.close()
 
 
-class JedyServer(asyncore.dispatcher):
+class Morpheus(asyncore.dispatcher):
     def __init__(self, host, port):
         asyncore.dispatcher.__init__(self)
         self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,11 +25,11 @@ class JedyServer(asyncore.dispatcher):
         pair = self.accept()
         if pair is not None:
             sock, addr = pair
-            JedyHandler(sock)
+            MorpheusHandler(sock)
 
     def handle_error(self):
         pass
 
 if __name__ == '__main__':
-    server = JedyServer('localhost', 8080)
+    server = Morpheus('localhost', 8080)
     asyncore.loop()
