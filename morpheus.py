@@ -1,21 +1,21 @@
 import asyncore
 import socket
 
-from mocket.compat import encode_utf8
-
 
 class Morpheus(asyncore.dispatcher_with_send):
+
     def handle_read(self):
         data = self.recv(8192).strip()
-        if data == encode_utf8('I know kung fu.'):
-            reply = encode_utf8('Show me.')
+        if data == 'I know kung fu.'.encode('utf8'):
+            reply = 'Show me.'.encode('utf8')
         else:
-            reply = encode_utf8('Blue Pill.')
-        self.send(reply + encode_utf8('\r\n'))
+            reply = 'Blue Pill.'.encode('utf8')
+        self.send(reply + '\r\n'.encode('utf8'))
         self.close()
 
 
 class MorpheusServer(asyncore.dispatcher):
+
     def __init__(self, host, port):
         asyncore.dispatcher.__init__(self)
         self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -31,6 +31,7 @@ class MorpheusServer(asyncore.dispatcher):
 
     def handle_error(self):
         pass
+
 
 if __name__ == '__main__':
     server = MorpheusServer('localhost', 8080)
