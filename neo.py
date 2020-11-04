@@ -1,6 +1,6 @@
 import socket
 
-from mocket.compat import encode_utf8
+from mocket.compat import encode_to_bytes
 
 
 class Neo(object):
@@ -10,8 +10,8 @@ class Neo(object):
 
     def iknow(self):
         self._fp = self.sock.makefile('rb')
-        self.sock.sendall(encode_utf8('I know kung fu.\r\n'))
-        return self._fp.read().strip() == encode_utf8('Show me.')
+        self.sock.sendall(encode_to_bytes('I know kung fu.\r\n'))
+        return self._fp.read().strip() == encode_to_bytes('Show me.')
 
 
 if __name__ == '__main__':

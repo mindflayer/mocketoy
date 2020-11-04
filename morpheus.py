@@ -1,17 +1,17 @@
 import asyncore
 import socket
 
-from mocket.compat import encode_utf8
+from mocket.compat import encode_to_bytes
 
 
 class Morpheus(asyncore.dispatcher_with_send):
     def handle_read(self):
         data = self.recv(8192).strip()
-        if data == encode_utf8('I know kung fu.'):
-            reply = encode_utf8('Show me.')
+        if data == encode_to_bytes('I know kung fu.'):
+            reply = encode_to_bytes('Show me.')
         else:
-            reply = encode_utf8('Blue Pill.')
-        self.send(reply + encode_utf8('\r\n'))
+            reply = encode_to_bytes('Blue Pill.')
+        self.send(reply + encode_to_bytes('\r\n'))
         self.close()
 
 
